@@ -1,8 +1,35 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Bitcount+Grid+Single:wght@100..900&display=swap"); */
 @import "tailwindcss";
-/* p {
-  font-family: "Bitcount Grid Single";
+/* .font-bitcount {
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
   font-variation-settings: "slnt" 1, "CRSV" 0.5, "ELSH" 0, "ELXP" 0;
 } */
+
+.bbh-sans-bogle-regular {
+  font-family: "BBH Sans Bogle", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.sofia-sans-condensed {
+  font-family: "Sofia Sans Condensed", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+}
+
+
+@theme {
+  --font-bitcount: "Bitcount Grid Single";
+  --font-bbh: "BBH Sans Bogle", sans-serif;
+}
+
+* {
+  font-family: "Bitcount Grid Single";
+    /* font-family: "BBH Sans Bogle", sans-serif; */
+      /* font-family: "Sofia Sans Condensed", sans-serif; */
+
+
+}

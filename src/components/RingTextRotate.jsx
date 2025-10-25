@@ -36,13 +36,14 @@ function makeCanva(children, color, sub) {
   return canvas;
 }
 
-const CylinderText = ({ size, children, color, position = [0, 0, 0], sub }) => {
-  const groupRef = useRef();
-  console.log(groupRef.current);
-  useGSAP(() => {
-    console.log(groupRef.current);
-  });
-
+const CylinderText = ({
+  size,
+  children,
+  color,
+  position = [0, 0, 0],
+  sub,
+  ref,
+}) => {
   const canvas = useMemo(
     () => makeCanva(children, color, sub),
     [children, color, sub]
@@ -57,8 +58,8 @@ const CylinderText = ({ size, children, color, position = [0, 0, 0], sub }) => {
   // const meshRef = React.useRef();
 
   useFrame(({ clock }) => {
-    texture.current.offset.x = clock.getElapsedTime() / 6;
-    texture2.current.offset.x = clock.getElapsedTime() / 6;
+    texture.current.offset.x = clock.getElapsedTime() / 7;
+    texture2.current.offset.x = clock.getElapsedTime() / 7;
   });
 
   const cylArgs = [1, 1, 2, 64, 1, true];
@@ -67,7 +68,7 @@ const CylinderText = ({ size, children, color, position = [0, 0, 0], sub }) => {
       rotation-y={Math.PI / 4}
       scale={[0.5, size, 1]}
       position={position}
-      ref={groupRef}
+      ref={ref}
     >
       <Cylinder args={cylArgs}>
         <meshBasicMaterial
@@ -111,21 +112,49 @@ const CylinderText = ({ size, children, color, position = [0, 0, 0], sub }) => {
   );
 };
 
-const GroupText = () => {
-  const groupRef = useRef();
+const GroupText = ({ loading }) => {
+  const ct1 = useRef();
+  const ct2 = useRef();
+
   useGSAP(() => {
-    gsap.to(groupRef.current.position, { y: -0.12, duration: 2 ,ease:"power2.inOut"});
+    gsap.to(ct1.current.position, {
+      y: -0.12,
+      duration: 0.5,
+      ease: "power2.inOut",
+    });
+    gsap.to(ct2.current.position, {
+      y: -0.3,
+      duration: 0.8,
+      ease: "power2.inOut",
+    });
   });
+
+  useGSAP(() => {
+    if (loading == "100") {
+      gsap.to(ct1.current.position, {
+        y: -5,
+        duration: 0.8,
+        ease: "power2.inOut",
+      });
+
+      gsap.to(ct2.current.position, {
+        y: -5,
+        duration: 0.5,
+        ease: "power2.inOut",
+      });
+    }
+  }, [loading]);
   return (
-    <group scale={0.5} rotation-z={0.2} position={[0, -3, 0]} ref={groupRef}>
-      <CylinderText size={0.1} color={"black"}>
+    <group scale={0.7} rotation-z={0.2}>
+      <CylinderText size={0.1} color={"black"} ref={ct1} position={[0, -3, 0]}>
         BUILDING YOUR EXPERIENCE ON THE WEB
       </CylinderText>
       <CylinderText
         size={0.07}
         color={"black"}
-        position={[0, -0.12, 0]}
+        position={[0, -3.2, 0]}
         sub={true}
+        ref={ct2}
       >
         FRONTEND --- DEVELOPER --- REACT --- NEXTJS --- TAILWIND --- CSS ---
         HTML ---
@@ -134,19 +163,18 @@ const GroupText = () => {
   );
 };
 
-export default function RingTextRotate() {
+export default function RingTextRotate({ loading }) {
   return (
     <Canvas
       style={{
         height: "120vh",
         width: "100%",
-        background: "lightgray",
       }}
       pixelRatio={window.devicePixelRatio}
       camera={{ position: [2, 1, 2], fov: 50 }}
     >
       <ambientLight intensity={0.5} />
-      <GroupText />
+      <GroupText loading={loading} />
     </Canvas>
   );
 }
