@@ -8,7 +8,7 @@ import gsap from "gsap";
 import Header from "./components/LandingPage/Header";
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const homeRef = useRef();
 
@@ -52,7 +52,7 @@ function App() {
         return newPercentage;
       });
     };
-    const interval = setInterval(updateProgress, 50);
+    const interval = setInterval(updateProgress, 70);
     return () => {
       clearInterval(interval);
       clearTimeout(loadTimer);
