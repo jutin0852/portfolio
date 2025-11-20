@@ -6,6 +6,10 @@ import RingTextRotate from "./components/RingTextRotate";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Header from "./components/LandingPage/Header";
+import Hero from "./components/LandingPage/Hero";
+import AboutMe from "./components/LandingPage/AboutMe";
+import AboutMe2 from "./components/LandingPage/AboutMe2";
+import Works from "./components/LandingPage/Works";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -18,7 +22,7 @@ function App() {
         gsap.to(".count", { opacity: 0, duration: 0.4 });
       }
     },
-    { scope: homeRef,dependencies:[percentage] }
+    { scope: homeRef, dependencies: [percentage] },
   );
 
   useEffect(() => {
@@ -61,17 +65,22 @@ function App() {
 
   if (loading) {
     return (
-      <div className=" h-[80vh] flex justify-center items-center" ref={homeRef}>
+      <div className="flex h-[80vh] items-center justify-center" ref={homeRef}>
         <RingTextRotate loading={percentage} />
-        <div className="absolute left-10 bottom-10 font-bitcount text-3xl count">
+        <div className="font-bitcount count absolute bottom-10 left-10 text-3xl">
           {percentage}%
         </div>
       </div>
     );
   }
   return (
-    <div ref={homeRef}>
-      <Header />
+    <div ref={homeRef} className="h-screen">
+      {/* <Header />
+      <Hero />
+      <AboutMe />
+      <AboutMe2 /> */}
+      <Works />
+      <div className="h-screen"></div>
     </div>
   );
 }
