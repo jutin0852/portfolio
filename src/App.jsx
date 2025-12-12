@@ -1,6 +1,6 @@
-// import { useState } from "react";
+import { useState } from "react";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef,  } from "react";
 import "./App.css";
 import RingTextRotate from "./components/RingTextRotate";
 import { useGSAP } from "@gsap/react";
@@ -12,7 +12,7 @@ import AboutMe2 from "./components/LandingPage/AboutMe2";
 import Works from "./components/LandingPage/Works";
 
 function App() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [percentage, setPercentage] = useState(0);
   const homeRef = useRef();
 
@@ -26,14 +26,13 @@ function App() {
   );
 
   useEffect(() => {
-    const minLoadTime = 4000; // 10 seconds minimum
+    const minLoadTime = 4000; 
     const startTime = Date.now();
     let pageLoaded = false;
 
-    // Simulate page load complete
     const loadTimer = setTimeout(() => {
       pageLoaded = true;
-    }, 2000); // Simulating page resources loading
+    }, 2000); 
 
     const updateProgress = () => {
       const elapsed = Date.now() - startTime;
@@ -45,7 +44,6 @@ function App() {
       setPercentage((prev) => {
         const newPercentage = Math.min(prev + 1, targetPercentage);
 
-        // Check if loading is complete
         if (newPercentage >= 100 && elapsed >= minLoadTime && pageLoaded) {
           setTimeout(() => {
             setLoading(false);
@@ -75,10 +73,10 @@ function App() {
   }
   return (
     <div ref={homeRef} className="h-screen">
-      {/* <Header />
+      <Header />
       <Hero />
       <AboutMe />
-      <AboutMe2 /> */}
+      <AboutMe2 />
       <Works />
       <div className="h-screen"></div>
     </div>
