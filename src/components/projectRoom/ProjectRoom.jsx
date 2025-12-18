@@ -1,4 +1,4 @@
-import { useGSAP } from "@gsap/react";
+// import { useGSAP } from "@gsap/react";
 import {
   AdaptiveEvents,
   Environment,
@@ -18,61 +18,61 @@ import SwipeHint from "./SwipeHint";
 import AnimatedLink from "../animation/AnimatedLink";
 gsap.registerPlugin(ScrollTrigger);
 
-export function ProjectRoom1() {
-  const model = useGLTF("./assets/final-scene.glb");
-  const spotRef = useRef(null);
-  const modelRef = useRef();
+// export function ProjectRoom1() {
+//   const model = useGLTF("./assets/final-scene.glb");
+//   const spotRef = useRef(null);
+//   const modelRef = useRef();
 
-  useGSAP(() => {
-    gsap.from(modelRef.current.rotation, {
-      x: 1,
-      ease: "power1.inOut",
+//   useGSAP(() => {
+//     gsap.from(modelRef.current.rotation, {
+//       x: 1,
+//       ease: "power1.inOut",
 
-      scrollTrigger: {
-        trigger: ".canva",
-        start: "20% bottom",
-        end: "bottom bottom",
+//       scrollTrigger: {
+//         trigger: ".canva",
+//         start: "20% bottom",
+//         end: "bottom bottom",
 
-        markers: true,
-        scrub: 2,
-      },
-    });
-  });
+//         markers: true,
+//         scrub: 2,
+//       },
+//     });
+//   });
 
-  return (
-    <group>
-      <hemisphereLight intensity={8} />
-      {/* <pointLight
-        intensity={1}
-        position={[0.02, 0.1, 2.68]}
-        color={"red"}
-      /> */}
-      <spotLight
-        position={[0.02, 0.1, 2.68]}
-        angle={0.4}
-        ref={spotRef}
-        castShadow
-        intensity={20}
-        penumbra={1}
-        color={"white"}
-      />
-      <mesh rotation={[9.4, 3.14, 0]} position={[0, 1, -2]}>
-        <planeGeometry args={[2, 4]} />
-        <meshStandardMaterial color="black" />
-      </mesh>
+//   return (
+//     <group>
+//       <hemisphereLight intensity={8} />
+//       {/* <pointLight
+//         intensity={1}
+//         position={[0.02, 0.1, 2.68]}
+//         color={"red"}
+//       /> */}
+//       <spotLight
+//         position={[0.02, 0.1, 2.68]}
+//         angle={0.4}
+//         ref={spotRef}
+//         castShadow
+//         intensity={20}
+//         penumbra={1}
+//         color={"white"}
+//       />
+//       <mesh rotation={[9.4, 3.14, 0]} position={[0, 1, -2]}>
+//         <planeGeometry args={[2, 4]} />
+//         <meshStandardMaterial color="black" />
+//       </mesh>
 
-      {/* <SpotLightDebug spotRef={spotRef} /> */}
-      {/* <primitive object={spotRef.current.target} /> */}
-      <primitive
-        object={model.scene}
-        ref={modelRef}
-        castShadow
-        scale={1}
-        position={[0, -0.33, 2.28]}
-      />
-    </group>
-  );
-}
+//       {/* <SpotLightDebug spotRef={spotRef} /> */}
+//       {/* <primitive object={spotRef.current.target} /> */}
+//       <primitive
+//         object={model.scene}
+//         ref={modelRef}
+//         castShadow
+//         scale={1}
+//         position={[0, -0.33, 2.28]}
+//       />
+//     </group>
+//   );
+// }
 function SimplePlaybackGate() {
   const set = useThree((s) => s.set);
 
@@ -180,56 +180,70 @@ function CameraRig() {
   return null;
 }
 
-function IntroRise({ sectionRef, children }) {
+export function IntroRise({ sectionRef, children }) {
   const stageRef = useRef();
   const { invalidate } = useThree();
 
   useEffect(() => {
     if (!stageRef.current || !sectionRef?.current) return;
 
+    const scroller =
+      window.innerWidth < 1100
+        ? document.querySelector(".scroll-container")
+        : undefined;
+
+    // Link animation
     const link = document.querySelector(".projects-canvas .link");
-
-    gsap.fromTo(
-      link,
-      { opacity: 0, pointerEvents: "none" },
-      {
-        opacity: 1,
-        pointerEvents: "auto",
-        scrollTrigger: {
-          trigger: ".projects",
-          start: "top -100%",
-          end: "bottom 100%",
-          scrub: true,
-          scroller: window.innerWidth < 1100 ? ".scroll-container" : null,
-        },
-      },
-    );
-
-    if (window.innerWidth < 1100) {
-      const swipeText = document.querySelector(".projects-canvas__swipe");
-      gsap.fromTo(
-        swipeText,
-        { opacity: 0, pointerEvents: "none" },
-        {
-          opacity: 1,
-          pointerEvents: "auto",
-          scrollTrigger: {
-            trigger: ".projects",
-            start: "top -100%",
-            end: "bottom 100%",
-            scrub: true,
-            scroller: window.innerWidth < 1100 ? ".scroll-container" : null,
+    let linkCtx;
+    if (link) {
+      linkCtx = gsap.context(() => {
+        gsap.fromTo(
+          link,
+          { opacity: 0, pointerEvents: "none" },
+          {
+            opacity: 1,
+            pointerEvents: "auto",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top -100%",
+              end: "bottom 100%",
+              scrub: true,
+              scroller,
+            },
           },
-        },
-      );
+        );
+      }, link);
     }
 
+    // Swipe hint for mobile
+    let swipeCtx;
+    if (window.innerWidth < 1100) {
+      const swipeText = document.querySelector(".projects-canvas__swipe");
+      if (swipeText) {
+        swipeCtx = gsap.context(() => {
+          gsap.fromTo(
+            swipeText,
+            { opacity: 0, pointerEvents: "none" },
+            {
+              opacity: 1,
+              pointerEvents: "auto",
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top -100%",
+                end: "bottom 100%",
+                scrub: true,
+                scroller,
+              },
+            },
+          );
+        }, swipeText);
+      }
+    }
+
+    // Stage rotation — no gsap.context
     const startX = 1.5;
     const endX = 0;
-
     stageRef.current.rotation.set(startX, 0, 0);
-
-   
 
     const enterTween = gsap.to(stageRef.current.rotation, {
       x: endX,
@@ -241,13 +255,16 @@ function IntroRise({ sectionRef, children }) {
         end: "+=200%",
         scrub: 2,
         invalidateOnRefresh: true,
-        scroller: window.innerWidth < 1100 ? ".scroll-container" : null,
+        scroller: scroller, // optional, undefined on desktop
       },
     });
 
+    // Cleanup on unmount
     return () => {
       enterTween.scrollTrigger?.kill();
       enterTween.kill();
+      linkCtx?.revert();
+      swipeCtx?.revert();
     };
   }, [sectionRef, invalidate]);
 
@@ -256,9 +273,8 @@ function IntroRise({ sectionRef, children }) {
       {children}
       <BeamCone
         position={[0.029, 0.177, 0.37]}
-        rotaion={[0.5, 0, 0]}
-        scale={[0.1, 0.03, 0.1]}
         rotation={[Math.PI / 2, 0, 0]}
+        scale={[0.1, 0.03, 0.1]}
         length={2}
         radius={0.45}
         additive
@@ -313,7 +329,7 @@ function IntroRise({ sectionRef, children }) {
 
 export default function ProjectRoom() {
   const sectionRef = useRef(null);
-  // const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [hovering, setHovering] = useState(false);
   const [exposure] = useState(0.92);
   const [isDesktop, setIsDesktop] = useState(
@@ -326,6 +342,9 @@ export default function ProjectRoom() {
   }, []);
 
   const slides = [
+    { img: "./assets/projects/itappp.jpg", link: "/" },
+    { img: "./assets/projects/mon.jpeg", link: "/" },
+
     // { img: "./img/projects/art4.jpg", link: "/fashion-week" },
     // { img: "./img/projects/art1.jpg", link: "/press-play" },
     // { img: "./img/projects/art5.jpg", link: "/raine" },
@@ -334,8 +353,12 @@ export default function ProjectRoom() {
   ];
 
   return (
-    <section className="projects h-[400dvh] relative"  id="works" ref={sectionRef}>
-      <div className="projects-canvas sticky h-dvh top-0 w-full left-0">
+    <section
+      className="projects relative h-[400dvh]"
+      id="works"
+      ref={sectionRef}
+    >
+      <div className="projects-canvas sticky top-0 left-0 h-dvh w-full">
         <Canvas
           dpr={[
             1,
@@ -372,7 +395,7 @@ export default function ProjectRoom() {
               <Scene />
               <SlideSlider
                 slides={slides}
-                // onChange={setCurrentSlide}
+                onChange={setCurrentSlide}
                 onHoverChange={setHovering}
               />
             </IntroRise>
@@ -387,9 +410,14 @@ export default function ProjectRoom() {
 
         {isDesktop ? <SwipeHint show={hovering} /> : null}
 
-        {/* <div className="projects-canvas__swipe">Swipe slider</div> */}
-
-        {/* <AnimatedLink text="view case" to={slides[currentSlide].link} /> */}
+        <div className="font-spline absolute bottom-30 left-1/2 -translate-x-1/2 transform text-white md:hidden">
+          Swipe slider
+        </div>
+        <AnimatedLink
+          text="VIEW PROJECT"
+          className="font-spline absolute bottom-20 left-1/2 -translate-x-1/2 transform text-white"
+          to={slides[currentSlide].link}
+        />
       </div>
     </section>
   );

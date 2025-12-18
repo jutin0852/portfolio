@@ -87,7 +87,7 @@ export default function LayeredTextAnimator() {
   }, []);
 
   const textLayerClass =
-    " text-[clamp(4rem,18vw,5rem)] py-35 pb-30 leading-0 font-extrabold -tracking-[3px] md:text-[clamp(20rem,24vw,50rem)] md:tracking-[15px]  absolute bg-[#f7f7f7] font-bold  pointer-events-none";
+    " text-[clamp(10rem,18vw,5rem)] pt-15 pb-16 md:py-35 md:pb-30 leading-0 font-extrabold -tracking-[3px] md:text-[clamp(20rem,24vw,50rem)] md:tracking-[15px]  absolute bg-[#f7f7f7] font-bold  pointer-events-none";
 
   return (
     <div className="relative flex h-screen flex-col items-center justify-center ">
@@ -116,13 +116,13 @@ export default function LayeredTextAnimator() {
         <h1
           ref={mainTextRef}
           style={{ color: textColor, zIndex: 100 }}
-          className="pointer-events-none absolute h-full bg-[#f7f7f7] pt-35 pb-30 text-[clamp(4rem,18vw,5rem)] leading-0 font-extrabold -tracking-[3px] md:text-[clamp(20rem,24vw,50rem)] md:tracking-[15px]"
-        >
+          className="pointer-events-none absolute h-full bg-[#f7f7f7] pt-15 pb-16 md:pt-35 md:pb-30 text-[clamp(10rem,18vw,5rem)] leading-0 font-extrabold -tracking-[3px] md:text-[clamp(20rem,24vw,50rem)] md:tracking-[15px]"
+        > 
           {text}
         </h1>
         <p
           style={{ zIndex: 101 }}
-          className="font-spline absolute text-[70px] font-bold text-[#ef5143]"
+          className="font-spline absolute text-4xl md:text-[70px] font-bold text-[#ef5143]"
         >
           I <span className="ml-9">AM</span>
         </p>

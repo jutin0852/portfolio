@@ -10,6 +10,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
   const imgRef = useRef(null);
+   const scrollToSection = (id) => {
+     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+   };
+
 
   useGSAP(() => {
     const split = SplitText.create(".fd", {
@@ -81,9 +85,12 @@ export default function Hero() {
   });
 
   return (
-    <section className="w-full max-w-full bg-[#f7f7f7] p-8 md:pt-10 md:pb-4">
-      <p className="fd relative z-49 overflow-x-hidden overflow-y-hidden py-10 text-center text-[clamp(6.5rem,18vw,9rem)] leading-[clamp(5rem,14vw,6rem)] font-extrabold -tracking-[5px] md:text-[clamp(9rem,12vw,14rem)] md:-tracking-[9px] md:whitespace-nowrap lg:-tracking-[11px]">
-        FRONTEND
+    <section
+      id="header"
+      className="w-full max-w-full bg-[#f7f7f7] p-8 md:pt-20 md:pb-4"
+    >
+      <p className="fd relative z-49 overflow-x-hidden overflow-y-hidden py-10 text-center text-[clamp(5.5rem,18vw,9rem)] leading-[clamp(5rem,14vw,6rem)] font-extrabold -tracking-[5px] md:text-[clamp(9rem,12vw,14rem)] md:-tracking-[9px] md:whitespace-nowrap lg:-tracking-[11px]">
+        FRONTEND {" "}
         <br className="md:hidden" />
         DEVELOPER
       </p>
@@ -108,8 +115,8 @@ export default function Hero() {
       </div>
       <section className="mb-10 flex flex-col text-2xl sm:mb-20">
         <div className="md:self-end">
-          <p className="font-light">
-            <span>RECENT WORK</span>{" "}
+          <p onClick={()=> scrollToSection('works')} className="cursor-pointer font-light">
+            <span  >RECENT WORK</span>
             <ArrowDownRight strokeWidth={1} className="inline" />
           </p>
           <p className="font-bold">JUTIN'S PROJECTS</p>
@@ -120,7 +127,7 @@ export default function Hero() {
             <ArrowDownRight strokeWidth={1} className="inline" />
           </p>
           <p className="font-bold underline underline-offset-4">
-            Jutindikonu8@gmail.com
+            <a href="mailto:jutindikonu8@gmail.com">Jutindikonu8@gmail.com</a>
           </p>
         </div>
       </section>

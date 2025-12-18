@@ -246,7 +246,7 @@ export default function ProjectRoom() {
           ]}
           gl={{
             antialias: true,
-            powerPreference: "high-performance",
+            powerPreference: "low-power",
             outputEncoding: THREE.sRGBEncoding,
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: exposure,
