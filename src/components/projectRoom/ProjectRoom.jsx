@@ -106,10 +106,15 @@ function SimplePlaybackGate() {
       onLeaveBack: disable,
     });
 
+    // Ensure correct state on refreshs/layout changes
+    const refreshHandler = () => (st.isActive ? enable() : disable());
+    ScrollTrigger.addEventListener("refresh", refreshHandler);
+
     gsap.delayedCall(0, () => (st.isActive ? enable() : disable()));
 
     return () => {
       st.kill();
+      ScrollTrigger.removeEventListener("refresh", refreshHandler);
       disable();
     };
   }, [set]);
@@ -149,6 +154,23 @@ export function Scene() {
       child.material = mat;
       child.material.needsUpdate = true;
     });
+
+    return () => {
+      // Dispose created resources to avoid GPU memory leaks
+      scene.traverse((child) => {
+        if (!child.isMesh) return;
+        if (child.geometry) child.geometry.dispose();
+        const mats = Array.isArray(child.material) ? child.material : [child.material];
+        mats.forEach((m) => {
+          if (!m) return;
+          if (m.map) m.map.dispose();
+          if (m.normalMap) m.normalMap.dispose?.();
+          if (m.roughnessMap) m.roughnessMap.dispose?.();
+          if (m.aoMap) m.aoMap.dispose?.();
+          m.dispose?.();
+        });
+      });
+    };
   }, [scene, gl]);
 
   return (
@@ -336,9 +358,39 @@ export default function ProjectRoom() {
     typeof window !== "undefined" ? window.innerWidth > 1100 : true,
   );
   useEffect(() => {
-    const onResize = () => setIsDesktop(window.innerWidth > 1100);
+    const onResize = () => {
+      setIsDesktop(window.innerWidth > 1100);
+      // ensure ScrollTrigger recalculates after layout/DPR changes
+      ScrollTrigger.refresh();
+    };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  // WebGL context lost / restored handlers
+  useEffect(() => {
+    const canvas = document.querySelector('.projects-canvas canvas');
+    if (!canvas) return;
+
+    const handleLost = (e) => {
+      e.preventDefault();
+      console.warn('WebGL context lost', e);
+      // Optionally notify user or schedule a reload to recover
+      // setTimeout(() => window.location.reload(), 1000);
+    };
+
+    const handleRestore = () => {
+      console.info('WebGL context restored');
+      ScrollTrigger.refresh();
+    };
+
+    canvas.addEventListener('webglcontextlost', handleLost, false);
+    canvas.addEventListener('webglcontextrestored', handleRestore, false);
+
+    return () => {
+      canvas.removeEventListener('webglcontextlost', handleLost);
+      canvas.removeEventListener('webglcontextrestored', handleRestore);
+    };
   }, []);
 
   const slides = [
