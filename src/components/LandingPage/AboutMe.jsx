@@ -55,7 +55,7 @@ export default function AboutMe() {
 
     ScrollTrigger.create({
       animation: tl,
-      trigger: "#container",
+      trigger: "#aboutme",
       pin: true,
       end: "bottom top",
       scrub: 0.5,
@@ -64,8 +64,8 @@ export default function AboutMe() {
   });
 
   return (
-    <div id="container" className="overflow-y-hidden bg-[#101010] text-white pb-20 h-screen ">
-      <div className="flex flex-col px-10 lg:px-20 max-md:pt-15">
+    <section id="aboutme" className="overflow-y-hidden bg-[#101010] text-white pb-20 h-screen ">
+      <div className="flex flex-col px-10 lg:px-20 max-md:pt-15 ">
         <div className="max-w-300 lg:self-end overflow-visible md:p-10 text-[clamp(4rem,18vw,5rem)] leading-[clamp(5rem,14vw,6.5rem)] font-extrabold -tracking-[3px] text-[#f7f7f7] md:text-[clamp(6rem,12vw,8rem)] md:-tracking-[5px] md:whitespace-nowrap">
           <p className="font-spline my-10 md:my-5 text-xl font-normal tracking-normal text-white">
             FOR ME
@@ -107,6 +107,6 @@ export default function AboutMe() {
           </p>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

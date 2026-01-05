@@ -1,72 +1,87 @@
-// AnimatedLink.jsx
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import gsap from "gsap";
+import { NavLink } from "react-router";
+import { useGSAP } from "@gsap/react";
+import { SplitText } from "gsap/SplitText";
+gsap.registerPlugin(SplitText);
 
 const AnimatedLink = ({ text, to = "/", className = "", onClick, target }) => {
   const linkRef = useRef(null);
+  useGSAP(
+    () => {
+      const item = linkRef.current;
 
-  useEffect(() => {
-    const el = linkRef.current;
-    if (!el) return;
+      const split = new SplitText(item, { type: "chars" });
+      const chars = split.chars;
 
-    const topSpans = el.querySelectorAll(".original span");
-    const bottomSpans = el.querySelectorAll(".clone span");
-    const isLargeScreen = () => window.innerWidth > 1100;
+      const clones = [];
 
-    const enter = () => {
-      if (!isLargeScreen()) return;
-      gsap.to(topSpans, {
-        yPercent: -100,
-        stagger: { each: 0.02, from: "end" },
-        duration: 0.5,
-        ease: "power3.out",
+      // Wrap and clone each character
+      chars.forEach((char) => {
+        const parent = char.parentNode;
+        const wrapper = document.createElement("span");
+
+        // Wrapper styles
+        wrapper.style.display = "inline-block";
+        wrapper.style.overflow = "hidden";
+        wrapper.style.position = "relative";
+
+        // Insert wrapper
+        parent.insertBefore(wrapper, char);
+        wrapper.appendChild(char);
+
+        // Original char styles
+        char.style.display = "inline-block";
+        char.style.position = "relative";
+
+        // Clone
+        const clone = char.cloneNode(true);
+        clone.style.position = "absolute";
+        clone.style.top = "0";
+        clone.style.left = "0";
+        gsap.set(clone, { yPercent: 100 });
+        wrapper.appendChild(clone);
+
+        clones.push(clone);
       });
-      gsap.to(bottomSpans, {
-        yPercent: -100,
-        stagger: { each: 0.02, from: "end" },
-        duration: 0.5,
-        ease: "power3.out",
-      });
-    };
-    const leave = () => {
-      if (!isLargeScreen()) return;
-      gsap.to(topSpans, {
-        yPercent: 0,
-        stagger: { each: 0.02, from: "end" },
-        duration: 0.5,
-        ease: "power3.out",
-      });
-      gsap.to(bottomSpans, {
-        yPercent: 100,
-        stagger: { each: 0.02, from: "end" },
-        duration: 0.5,
-        ease: "power3.out",
-      });
-    };
 
-    el.addEventListener("mouseenter", enter);
-    el.addEventListener("mouseleave", leave);
-    return () => {
-      el.removeEventListener("mouseenter", enter);
-      el.removeEventListener("mouseleave", leave);
-    };
-  }, []);
+      item.addEventListener("mouseenter", () => {
+        // Move originals up and out
+        gsap.to(chars, {
+          yPercent: -100,
+          duration: 0.5,
+          stagger: 0.05,
+          ease: "power2.inOut",
+        });
 
-  const letters = text.split("");
+        // Move clones up into view
+        gsap.to(clones, {
+          yPercent: 0,
+          duration: 0.5,
+          stagger: 0.05,
+          ease: "power2.inOut",
+        });
+      });
 
-  const content = (
-    <>
-      <span className="original">
-        {letters.map((c, i) => (
-          <span key={`t-${i}`}>{c === " " ? "\u00A0" : c}</span>
-        ))}
-      </span>
-      <span className="clone" aria-hidden="true">
-        {letters.map((c, i) => (
-          <span key={`b-${i}`}>{c === " " ? "\u00A0" : c}</span>
-        ))}
-      </span>
-    </>
+      item.addEventListener("mouseleave", () => {
+        // Move originals back to normal
+        gsap.to(chars, {
+          yPercent: 0,
+          duration: 0.5,
+          stagger: 0.05,
+          ease: "power2.inOut",
+        });
+
+        // Move clones back down
+        gsap.to(clones, {
+          yPercent: 100,
+          duration: 0.5,
+          stagger: 0.05,
+          ease: "power2.inOut",
+        });
+      });
+    },
+    { scope: linkRef },
   );
 
   if (target) {
@@ -76,22 +91,39 @@ const AnimatedLink = ({ text, to = "/", className = "", onClick, target }) => {
         target={target}
         rel={target === "_blank" ? "noopener noreferrer" : undefined}
         className={`link ${className}`}
-        ref={linkRef}
         onClick={onClick}
       >
-        {content}
+        <span className=" group relative text-base">
+          <span className="absolute -left-4 duration-400 ease-in-out group-hover:-left-6">
+            {"["}
+          </span>
+          <span
+            ref={linkRef}
+            className="navText peer tracking-wider transition"
+          >
+            {text}
+          </span>
+          <span className="absolute -right-4 duration-400 ease-in-out group-hover:-right-6">
+            {"]"}
+          </span>
+        </span>
       </a>
     );
   }
 
   return (
-    <NavLink
-      to={to}
-      className={`link ${className}`}
-      ref={linkRef}
-      onClick={onClick}
-    >
-      {content}
+    <NavLink to={to} className={`link ${className}`} onClick={onClick}>
+      <span className="group relative text-base">
+        <span className="absolute -left-4 duration-400 ease-in-out group-hover:-left-6">
+          {"["}
+        </span>
+        <span ref={linkRef} className="navText peer tracking-wider transition">
+          {text}
+        </span>
+        <span className="absolute -right-4 duration-400 ease-in-out group-hover:-right-6">
+          {"]"}
+        </span>
+      </span>
     </NavLink>
   );
 };

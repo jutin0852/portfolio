@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useEffect, useRef,  } from "react";
+import { useEffect, useRef } from "react";
 import "./App.css";
 import RingTextRotate from "./components/RingTextRotate";
 import { useGSAP } from "@gsap/react";
@@ -10,9 +10,10 @@ import Hero from "./components/LandingPage/Hero";
 import AboutMe from "./components/LandingPage/AboutMe";
 import AboutMe2 from "./components/LandingPage/AboutMe2";
 import Works from "./components/LandingPage/Works";
+import Connect from "./components/LandingPage/Connect";
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const homeRef = useRef();
 
@@ -26,13 +27,13 @@ function App() {
   );
 
   useEffect(() => {
-    const minLoadTime = 4000; 
+    const minLoadTime = 4000;
     const startTime = Date.now();
     let pageLoaded = false;
 
     const loadTimer = setTimeout(() => {
       pageLoaded = true;
-    }, 2000); 
+    }, 2000);
 
     const updateProgress = () => {
       const elapsed = Date.now() - startTime;
@@ -78,7 +79,7 @@ function App() {
       <AboutMe />
       <AboutMe2 />
       <Works />
-      <div className="h-screen"></div>
+      <Connect />
     </div>
   );
 }

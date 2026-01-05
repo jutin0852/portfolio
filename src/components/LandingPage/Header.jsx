@@ -2,10 +2,14 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useRef } from "react";
+import { nav } from "../../constants/data";
 gsap.registerPlugin(SplitText);
 
 export default function Header() {
   const navRef = useRef(null);
+  const scrollToSection = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useGSAP(
     () => {
@@ -89,11 +93,14 @@ export default function Header() {
   return (
     <header
       className="fixed top-0 right-0 left-0 z-50 py-5 pb-7"
-      style={{ mixBlendMode: "difference",color:'white' }}
+      style={{ mixBlendMode: "difference", color: "white" }}
     >
       <div className="text-white mix-blend-difference">
         <div className="mx-10 flex justify-between text-xl md:absolute">
-          <h2 className="inline-block text-3xl leading-6 font-extrabold tracking-tighter">
+          <h2
+            onClick={() => scrollToSection("header")}
+            className="inline-block cursor-pointer text-3xl leading-6 font-extrabold tracking-tighter"
+          >
             JUTIN <br /> DIKONU
           </h2>
           <span className="self-center md:hidden">MENU</span>
@@ -104,7 +111,11 @@ export default function Header() {
         >
           <ul className="flex w-3/4 max-w-150 justify-between gap-3 justify-self-end">
             {nav.map((nav, i) => (
-              <li key={i} className="group relative text-base">
+              <li
+                onClick={() => scrollToSection(nav.id)}
+                key={i}
+                className="group relative cursor-pointer text-base"
+              >
                 <span className="absolute -left-4 duration-400 ease-in-out group-hover:-left-6">
                   {"["}
                 </span>
@@ -118,21 +129,17 @@ export default function Header() {
               </li>
             ))}
           </ul>
-          <a
-            href=""
+
+          <p
+            onClick={() => scrollToSection("contact")}
             className="absolute right-6 text-xl underline underline-offset-4"
           >
-            CONTACT ME
-          </a>
+            <span className="relative inline-block cursor-pointer after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-500 hover:after:scale-x-100">
+              CONTACT ME
+            </span>
+          </p>
         </nav>
       </div>
     </header>
   );
 }
-
-const nav = [
-  { section: "ABOUT" },
-  { section: "WORKS" },
-  { section: "SERVICE" },
-  { section: "CONNECT" },
-];

@@ -7,16 +7,18 @@ import { twMerge } from "tailwind-merge";
 gsap.registerPlugin(SplitText);
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Title({ title, className }) {
+export default function Title({ className, ref, children }) {
   useGSAP(() => {
-    const splitAbout = SplitText.create(".bm", {
+    const wordRef = ref.current.querySelectorAll(".bm");
+    console.log("wordRef:", wordRef);
+    const splitAbout = SplitText.create(wordRef, {
       type: "chars",
     });
 
     gsap.from(splitAbout.chars, {
       y: -400,
       scrollTrigger: {
-        trigger: ".bm",
+        trigger: ref.current,
         scrub: 1,
         start: "top bottom",
         end: "top center",
@@ -31,14 +33,14 @@ export default function Title({ title, className }) {
   });
 
   return (
-    <div>
+    <div ref={ref}>
       <p
         className={twMerge(
-          "bm overflow-y-hidden p-10 text-center text-[clamp(6.5rem,18vw,9rem)] leading-[clamp(5rem,14vw,6rem)] font-extrabold -tracking-[5px] md:text-[clamp(9rem,12vw,14rem)] md:-tracking-[9px] md:whitespace-nowrap lg:-tracking-[11px]",
+          "bm overflow-y-hidden p-10 text-center text-[clamp(6.5rem,18vw,9rem)] leading-[clamp(5rem,14vw,6rem)] font-extrabold -tracking-[5px] wrap-break-word whitespace-normal md:text-[clamp(9rem,12vw,14rem)] md:-tracking-[5px] md:whitespace-nowrap lg:-tracking-[11px]",
           className,
         )}
       >
-        {title}
+        {children}
       </p>
     </div>
   );
