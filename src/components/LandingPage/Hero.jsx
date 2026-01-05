@@ -90,15 +90,16 @@ export default function Hero() {
       className="w-full max-w-full bg-[#f7f7f7] p-8 md:pt-20 md:pb-4"
     >
       <p className="fd relative z-49 overflow-x-hidden overflow-y-hidden py-10 text-center text-[clamp(5.5rem,18vw,9rem)] leading-[clamp(5rem,14vw,6rem)] font-extrabold -tracking-[5px] md:text-[clamp(9rem,12vw,14rem)] md:-tracking-[9px] md:whitespace-nowrap lg:-tracking-[11px]">
-        FRONTEND {" "}
-        <br className="md:hidden" />
+        FRONTEND <br className="md:hidden" />
         DEVELOPER
       </p>
 
       <div className="z-10 my-10 md:my-15">
         <div className="imgBack relative mx-auto flex h-72 max-w-140 max-md:justify-center md:bg-[#F1F1F1]">
           <p className="my-2 self-end overflow-y-hidden text-2xl font-bold tracking-tighter max-md:order-2">
-            <span className="imgText">/ FRONTEND DEVELOPMENT</span>
+            <p className="imgText">/ FRONTEND DEVELOPMENT</p>
+            <p className="imgText">/ MOBILE DEVELOPMENT</p>
+            <p className="imgText">/ WEB DEVELOPMENT</p>
           </p>
           <div className="">
             <img
@@ -115,8 +116,11 @@ export default function Hero() {
       </div>
       <section className="mb-10 flex flex-col text-2xl sm:mb-20">
         <div className="md:self-end">
-          <p onClick={()=> scrollToSection('works')} className="cursor-pointer font-light">
-            <span  >RECENT WORK</span>
+          <p
+            onClick={() => scrollToSection("works")}
+            className="cursor-pointer font-light"
+          >
+            <span>RECENT WORK</span>
             <ArrowDownRight strokeWidth={1} className="inline" />
           </p>
           <p className="font-bold">JUTIN'S PROJECTS</p>
