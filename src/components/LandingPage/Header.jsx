@@ -103,7 +103,7 @@ export default function Header() {
           >
             JUTIN <br /> DIKONU
           </h2>
-          <span className="self-center md:hidden">MENU</span>
+          {/* <span className="self-center md:hidden">MENU</span> */}
         </div>
         <nav
           ref={navRef}

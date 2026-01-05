@@ -87,7 +87,7 @@ export default function LayeredTextAnimator() {
   }, []);
 
   const textLayerClass =
-    " text-[clamp(10rem,18vw,5rem)] pt-15 pb-16 md:py-35 md:pb-30 leading-0 font-extrabold -tracking-[3px] md:text-[clamp(20rem,24vw,50rem)] md:tracking-[15px]  absolute bg-[#f7f7f7] font-bold  pointer-events-none";
+    " text-[clamp(10rem,18vw,5rem)] pt-16 pb-16 md:py-35 md:pb-30 leading-0 font-extrabold -tracking-[3px] md:text-[clamp(20rem,24vw,50rem)] md:tracking-[15px]  absolute bg-[#f7f7f7] font-bold  pointer-events-none";
 
   return (
     <div className="relative flex h-screen flex-col items-center justify-center ">
