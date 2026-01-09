@@ -23,8 +23,8 @@ export default function AboutMe() {
         scrollTrigger: {
           trigger: ".pd",
           scrub: 1,
-          start: "1000 top",
-          end: "1300 top",
+          start: "1400 top",
+          end: "1500 top",
         },
       });
     });
@@ -34,8 +34,8 @@ export default function AboutMe() {
       scrollTrigger: {
         trigger: ".pd",
         scrub: 1,
-        start: "1000 top",
-        end: "1300 top",
+        start: "1450 top",
+        end: "1500 top",
       },
     });
 
@@ -44,15 +44,14 @@ export default function AboutMe() {
     });
     tl.fromTo(".pd", { yPercent: -200 }, { yPercent: -100 });
 
-
     tl.to(imgRef.current, {
       clipPath: "inset(0% 0% 0% 0%)",
       scrollTrigger: {
         trigger: ".pd",
         scrub: 1,
-        markers: true,
-        start: "750 top",
-        end: "1200 top",
+        // markers: true,
+        start: "1200 top",
+        end: "1500 top",
       },
     });
 
@@ -60,8 +59,8 @@ export default function AboutMe() {
       animation: tl,
       trigger: "#aboutme",
       pin: true,
-      markers: true,
-      // start: "top top",
+      // markers: true,
+      start: "top top",
       end: "bottom top",
       scrub: 0.5,
       anticipatePin: 1,
@@ -73,7 +72,7 @@ export default function AboutMe() {
       id="aboutme"
       className="h-screen overflow-y-hidden bg-[#101010] pb-20 text-white"
     >
-      <div className="flex flex-col justify-center px-5 max-md:pt-15 lg:px-20">
+      <div className="flex flex-col justify-center px-10 max-md:pt-15 lg:px-20">
         <div className="max-w-300 overflow-visible text-[clamp(4rem,18vw,5rem)] leading-[clamp(5rem,14vw,6.5rem)] font-extrabold -tracking-[3px] text-[#f7f7f7] md:pt-5 md:text-[clamp(6rem,12vw,8rem)] md:-tracking-[5px] md:whitespace-nowrap lg:self-center lg:justify-self-center">
           <p className="font-spline my-5 text-xl font-normal tracking-normal text-white md:my-5">
             FOR ME
