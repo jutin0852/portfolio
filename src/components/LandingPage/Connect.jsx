@@ -233,7 +233,11 @@ export default function Connect() {
 
         <ul className="font-spline mx-5 flex justify-center gap-3 justify-self-end md:mt-10">
           {socialLinks.map((social, i) => (
-            <li key={i} className="group relative text-lg md:text-xl">
+            <a
+              href={social.url}
+              key={i}
+              className="group relative cursor-pointer text-lg md:text-xl"
+            >
               <span className="absolute -left-4 duration-400 ease-in-out group-hover:-left-6">
                 {"["}
               </span>
@@ -244,7 +248,7 @@ export default function Connect() {
               <span className="absolute -right-4 duration-400 ease-in-out group-hover:-right-6">
                 {"]"}
               </span>
-            </li>
+            </a>
           ))}
         </ul>
       </section>

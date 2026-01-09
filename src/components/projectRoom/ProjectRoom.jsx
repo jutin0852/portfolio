@@ -160,7 +160,9 @@ export function Scene() {
       scene.traverse((child) => {
         if (!child.isMesh) return;
         if (child.geometry) child.geometry.dispose();
-        const mats = Array.isArray(child.material) ? child.material : [child.material];
+        const mats = Array.isArray(child.material)
+          ? child.material
+          : [child.material];
         mats.forEach((m) => {
           if (!m) return;
           if (m.map) m.map.dispose();
@@ -369,33 +371,37 @@ export default function ProjectRoom() {
 
   // WebGL context lost / restored handlers
   useEffect(() => {
-    const canvas = document.querySelector('.projects-canvas canvas');
+    const canvas = document.querySelector(".projects-canvas canvas");
     if (!canvas) return;
 
     const handleLost = (e) => {
       e.preventDefault();
-      console.warn('WebGL context lost', e);
+      console.warn("WebGL context lost", e);
       // Optionally notify user or schedule a reload to recover
       // setTimeout(() => window.location.reload(), 1000);
     };
 
     const handleRestore = () => {
-      console.info('WebGL context restored');
+      console.info("WebGL context restored");
       ScrollTrigger.refresh();
     };
 
-    canvas.addEventListener('webglcontextlost', handleLost, false);
-    canvas.addEventListener('webglcontextrestored', handleRestore, false);
+    canvas.addEventListener("webglcontextlost", handleLost, false);
+    canvas.addEventListener("webglcontextrestored", handleRestore, false);
 
     return () => {
-      canvas.removeEventListener('webglcontextlost', handleLost);
-      canvas.removeEventListener('webglcontextrestored', handleRestore);
+      canvas.removeEventListener("webglcontextlost", handleLost);
+      canvas.removeEventListener("webglcontextrestored", handleRestore);
     };
   }, []);
 
   const slides = [
-    { img: "./assets/projects/itappp.jpg", link: "/" },
-    { img: "./assets/projects/mon.jpeg", link: "/" },
+    {
+      img: "./assets/projects/itappp.jpg",
+      link: "/www.i-tapp.com",
+      target: true,
+    },
+    // { img: "./assets/projects/mon.jpeg", link: "/" },
 
     // { img: "./img/projects/art4.jpg", link: "/fashion-week" },
     // { img: "./img/projects/art1.jpg", link: "/press-play" },
@@ -463,12 +469,13 @@ export default function ProjectRoom() {
         {isDesktop ? <SwipeHint show={hovering} /> : null}
 
         <div className="font-spline absolute bottom-30 left-1/2 -translate-x-1/2 transform text-white md:hidden">
-          Swipe slider
+          Swipe projector
         </div>
         <AnimatedLink
           text="VIEW PROJECT"
           className="font-spline absolute bottom-20 left-1/2 -translate-x-1/2 transform text-white"
           to={slides[currentSlide].link}
+          target={slides[currentSlide].target}
         />
       </div>
     </section>

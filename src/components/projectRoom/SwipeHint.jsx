@@ -77,7 +77,7 @@ export default function SwipeHint({ show }) {
         clipPath: "inset(0 100% 0 0)",
       }}
     >
-      Swipe
+      ← click and drag
     </div>
   );
 }

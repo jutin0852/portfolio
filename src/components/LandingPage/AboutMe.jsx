@@ -14,6 +14,8 @@ export default function AboutMe() {
 
   useGSAP(() => {
     const text = aboutRef.current.querySelectorAll("p");
+    const tl = gsap.timeline();
+
     text.forEach((element) => {
       const split = new SplitText(element, { type: "words" });
       gsap.from(split.words, {
@@ -21,35 +23,36 @@ export default function AboutMe() {
         scrollTrigger: {
           trigger: ".pd",
           scrub: 1,
-          start: "1400 top",
-          end: "1500 top",
+          start: "1000 top",
+          end: "1300 top",
         },
       });
     });
-    gsap.from('.experience', {
+    gsap.from(".experience", {
       opacity: 0,
-      
+
       scrollTrigger: {
         trigger: ".pd",
         scrub: 1,
-        start: "1450 top",
-        end: "1500 top",
-        
+        start: "1000 top",
+        end: "1300 top",
       },
     });
 
     gsap.set(imgRef.current, {
       clipPath: "inset(0% 0% 100% 0%)",
     });
-    const tl = gsap.timeline();
-    tl.fromTo(".pd", { yPercent: -230 }, { yPercent: -100 });
+    tl.fromTo(".pd", { yPercent: -200 }, { yPercent: -100 });
+
+
     tl.to(imgRef.current, {
       clipPath: "inset(0% 0% 0% 0%)",
       scrollTrigger: {
         trigger: ".pd",
         scrub: 1,
-        start: "1200 top",
-        end: "1500 top",
+        markers: true,
+        start: "750 top",
+        end: "1200 top",
       },
     });
 
@@ -57,6 +60,8 @@ export default function AboutMe() {
       animation: tl,
       trigger: "#aboutme",
       pin: true,
+      markers: true,
+      // start: "top top",
       end: "bottom top",
       scrub: 0.5,
       anticipatePin: 1,
@@ -64,10 +69,13 @@ export default function AboutMe() {
   });
 
   return (
-    <section id="aboutme" className="overflow-y-hidden bg-[#101010] text-white pb-20 h-screen ">
-      <div className="flex flex-col px-10 lg:px-20 max-md:pt-15 ">
-        <div className="max-w-300 lg:self-end overflow-visible md:p-10 text-[clamp(4rem,18vw,5rem)] leading-[clamp(5rem,14vw,6.5rem)] font-extrabold -tracking-[3px] text-[#f7f7f7] md:text-[clamp(6rem,12vw,8rem)] md:-tracking-[5px] md:whitespace-nowrap">
-          <p className="font-spline my-10 md:my-5 text-xl font-normal tracking-normal text-white">
+    <section
+      id="aboutme"
+      className="h-screen overflow-y-hidden bg-[#101010] pb-20 text-white"
+    >
+      <div className="flex flex-col justify-center px-5 max-md:pt-15 lg:px-20">
+        <div className="max-w-300 overflow-visible text-[clamp(4rem,18vw,5rem)] leading-[clamp(5rem,14vw,6.5rem)] font-extrabold -tracking-[3px] text-[#f7f7f7] md:pt-5 md:text-[clamp(6rem,12vw,8rem)] md:-tracking-[5px] md:whitespace-nowrap lg:self-center lg:justify-self-center">
+          <p className="font-spline my-5 text-xl font-normal tracking-normal text-white md:my-5">
             FOR ME
           </p>
           <p>CODE IS NOT </p>
@@ -77,13 +85,15 @@ export default function AboutMe() {
           <p>WITH IDEAS.</p>
         </div>
       </div>
-      <div className="pd h-screen bg-[#101010]  py-30"></div>
+      <div className="pd h-screen bg-[#101010] py-30"></div>
 
       <div
         ref={aboutRef}
-        className="fm fixed top-22 right-0 left-10 flex max-w-200 justify-between max-md:flex-col max-md:gap-6 "
+        className="fm fixed top-10 right-0 left-10 flex justify-between max-md:flex-col max-md:gap-6 md:max-w-150 lg:max-w-200 lg:pb-30"
       >
-        <p className="font-spline text-white font-light text-xl overflow-y-hidden">ABOUT ME</p>
+        <p className="font-spline overflow-y-hidden text-xl font-light text-white">
+          ABOUT ME
+        </p>
         <div>
           <div className="inline-block">
             <img src="/jutin.png" ref={imgRef} className="w-50 md:w-62" />
@@ -92,9 +102,9 @@ export default function AboutMe() {
               <p className="overflow-y-hidden">I AM....WELL JUST A SEC</p>
             </div>
           </div>
-          <p className="experience my-6 md:my-3 text-[#AAAAAA]">
+          <p className="experience my-6 text-[#AAAAAA] md:my-3">
             <span className="font-spline text-xl">MY EXPERIENCE</span>
-            <ArrowDownRight className="inline-block " />
+            <ArrowDownRight className="inline-block" />
           </p>
           <p className="font-spline max-w-100 overflow-y-hidden text-center text-xl font-light text-white">
             A FRONTEND DEVELOPER WITH 3

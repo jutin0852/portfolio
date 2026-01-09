@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { SplitText } from "gsap/SplitText";
 gsap.registerPlugin(SplitText);
 
-const AnimatedLink = ({ text, to = "/", className = "", onClick, target }) => {
+const AnimatedLink = ({ text, to = "/", className = "", onClick,  }) => {
   const linkRef = useRef(null);
   useGSAP(
     () => {
@@ -84,35 +84,14 @@ const AnimatedLink = ({ text, to = "/", className = "", onClick, target }) => {
     { scope: linkRef },
   );
 
-  if (target) {
-    return (
-      <a
-        href={to}
-        target={target}
-        rel={target === "_blank" ? "noopener noreferrer" : undefined}
-        className={`link ${className}`}
-        onClick={onClick}
-      >
-        <span className=" group relative text-base">
-          <span className="absolute -left-4 duration-400 ease-in-out group-hover:-left-6">
-            {"["}
-          </span>
-          <span
-            ref={linkRef}
-            className="navText peer tracking-wider transition"
-          >
-            {text}
-          </span>
-          <span className="absolute -right-4 duration-400 ease-in-out group-hover:-right-6">
-            {"]"}
-          </span>
-        </span>
-      </a>
-    );
-  }
-
   return (
-    <NavLink to={to} className={`link ${className}`} onClick={onClick}>
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href={`https://${to}`}
+      className={`link ${className}`}
+      onClick={onClick}
+    >
       <span className="group relative text-base">
         <span className="absolute -left-4 duration-400 ease-in-out group-hover:-left-6">
           {"["}
@@ -124,8 +103,24 @@ const AnimatedLink = ({ text, to = "/", className = "", onClick, target }) => {
           {"]"}
         </span>
       </span>
-    </NavLink>
+    </a>
   );
+
+  // return (
+  //   <NavLink to={to} className={`link ${className}`} onClick={onClick}>
+  //     <span className="group relative text-base">
+  //       <span className="absolute -left-4 duration-400 ease-in-out group-hover:-left-6">
+  //         {"["}
+  //       </span>
+  //       <span ref={linkRef} className="navText peer tracking-wider transition">
+  //         {text}
+  //       </span>
+  //       <span className="absolute -right-4 duration-400 ease-in-out group-hover:-right-6">
+  //         {"]"}
+  //       </span>
+  //     </span>
+  //   </NavLink>
+  // );
 };
 
 export default AnimatedLink;
