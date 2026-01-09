@@ -13,7 +13,7 @@ import Works from "./components/LandingPage/Works";
 import Connect from "./components/LandingPage/Connect";
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const homeRef = useRef();
 

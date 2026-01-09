@@ -1,8 +1,11 @@
+"use client";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useRef } from "react";
 import { nav } from "../../constants/data";
+import { useEffect } from "react";
+import { useState } from "react";
 gsap.registerPlugin(SplitText);
 
 export default function Header() {
@@ -11,10 +14,29 @@ export default function Header() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const [hidden, setHidden] = useState(false);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useGSAP(
     () => {
       const navItems = navRef.current.querySelectorAll(".navText");
-
       navItems.forEach((item) => {
         const split = new SplitText(item, { type: "chars" });
         const chars = split.chars;
@@ -92,7 +114,9 @@ export default function Header() {
 
   return (
     <header
-      className="fixed top-0 right-0 left-0 z-50 py-5 pb-7"
+      className={`fixed top-0 right-0 left-0 z-50 transform py-5 pb-7 transition-transform duration-300 ease-in-out ${
+        hidden ? "-translate-y-full" : "translate-y-0"
+      }`}
       style={{ mixBlendMode: "difference", color: "white" }}
     >
       <div className="text-white mix-blend-difference">

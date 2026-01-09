@@ -401,7 +401,7 @@ export default function ProjectRoom() {
       link: "/www.i-tapp.com",
       target: true,
     },
-    { img: "./assets/projects/mon.jpeg", link: "/" },
+    // { img: "./assets/projects/mon.jpeg", link: "/" },
 
     // { img: "./img/projects/art4.jpg", link: "/fashion-week" },
     // { img: "./img/projects/art1.jpg", link: "/press-play" },
@@ -469,7 +469,7 @@ export default function ProjectRoom() {
         {isDesktop ? <SwipeHint show={hovering} /> : null}
 
         <div className="font-spline absolute bottom-30 left-1/2 -translate-x-1/2 transform text-white md:hidden">
-          Swipe slider
+          Swipe projector
         </div>
         <AnimatedLink
           text="VIEW PROJECT"
