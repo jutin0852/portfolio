@@ -9,7 +9,7 @@ export const projects = [
     slug: "glad-style-fashion",
     name: "Glad Style Fashion",
     image: "/assets/projects/glad-style-fashion-projector.png",
-    liveUrl: "https://gladstylefashion.vercel.app/",
+    liveUrl: "https://gladstylefashion.com/",
   },
   {
     slug: "placeit",
