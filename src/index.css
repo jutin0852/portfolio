@@ -18,6 +18,28 @@ body {
   background: #f7f7f7;
 }
 
+@keyframes mobile-project-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-project-item {
+  animation: mobile-project-in 700ms cubic-bezier(0.22, 1, 0.36, 1)
+    var(--project-delay) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-project-item {
+    animation: none;
+  }
+}
+
 /* .font-bitcount {
   font-optical-sizing: auto;
   font-weight: 500;

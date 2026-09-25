@@ -9,7 +9,7 @@ export default function Connect() {
 
   return (
     <section id="connect" className="mx-2 mt-20 pb-5 md:mx-10">
-      <p className="bm mb-6 overflow-y-hidden text-center text-2xl font-bold">
+      <p className="bm font-spline mb-6 overflow-y-hidden text-center text-xs font-normal tracking-[0.16em]">
         LET&apos;S HAVE THAT MEETING
       </p>
       <Title
@@ -18,7 +18,7 @@ export default function Connect() {
       >
         A GREAT <br className="md:hidden" /> PRODUCT
       </Title>
-      <p className="bm mb-6 overflow-y-hidden text-center text-lg font-bold tracking-[1em]">
+      <p className="bm font-spline mb-6 overflow-y-hidden text-center text-xs font-normal tracking-[0.3em]">
         STARTS WITH
       </p>
       <Title

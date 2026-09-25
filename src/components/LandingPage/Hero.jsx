@@ -115,19 +115,19 @@ export default function Hero() {
         <div className="md:self-end">
           <p
             onClick={() => scrollToSection("works")}
-            className="cursor-pointer font-light"
+            className="font-spline cursor-pointer text-xs tracking-[0.16em]"
           >
             <span>RECENT WORK</span>
             <ArrowDownRight strokeWidth={1} className="inline" />
           </p>
-          <p className="font-bold">JUTIN'S PROJECTS</p>
+          <p className="mt-2 font-bold tracking-tight">JUTIN&apos;S PROJECTS</p>
         </div>
         <div className="max-md:self-end">
-          <p className="font-light">
+          <p className="font-spline text-xs tracking-[0.16em]">
             <span> AVAILABLE FOR WORK </span>
             <ArrowDownRight strokeWidth={1} className="inline" />
           </p>
-          <p className="font-bold underline underline-offset-4">
+          <p className="mt-2 font-bold tracking-tight underline underline-offset-4">
             <a href="mailto:jutindikonu8@gmail.com">Jutindikonu8@gmail.com</a>
           </p>
         </div>

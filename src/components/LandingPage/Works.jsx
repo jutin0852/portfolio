@@ -1,9 +1,25 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Title from "../Title";
 import ProjectRoom from "../projectRoom/ProjectRoom";
+import MobileProjectList from "./MobileProjectList";
 
 export default function Works() {
   const titleRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(max-width: 767px)").matches
+      : false,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(mediaQuery.matches);
+
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
   return (
     <section className="">
       <section className="bg-black">
@@ -16,7 +32,7 @@ export default function Works() {
           RECENT <br className="md:hidden" /> WORKS
         </Title>
       </section>
-      <ProjectRoom />
+      {isMobile ? <MobileProjectList /> : <ProjectRoom />}
     </section>
   );
 }
