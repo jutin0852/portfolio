@@ -391,7 +391,7 @@ export default function ProjectRoom() {
 
   return (
     <section
-      className="projects relative h-[400dvh]"
+      className="projects relative h-[400dvh] overflow-x-clip"
       id="works"
       ref={sectionRef}
     >
@@ -450,7 +450,7 @@ export default function ProjectRoom() {
         <div className="font-spline absolute bottom-30 left-1/2 -translate-x-1/2 transform text-white md:hidden">
           Swipe projector
         </div>
-        <div className="absolute right-0 bottom-20 left-0 flex justify-center">
+        <div className="absolute right-0 bottom-[30dvh] left-0 flex justify-center md:bottom-20">
           <AnimatedLink
             text="VIEW PROJECT"
             className="font-spline text-white"

@@ -99,8 +99,10 @@ export default function SlideSlider({ slides, onChange, onHoverChange }) {
           onHoverChange?.(false);
           document.body.style.cursor = "default";
         }}
-        onPointerDown={(e) => startDrag(getClientX(e))}
-        onTouchStart={(e) => startDrag(getClientX(e))}
+        onPointerDown={(e) => {
+          e.stopPropagation();
+          startDrag(e.clientX);
+        }}
       >
         <planeGeometry args={[slideWidth, slideHeight]} />
         <meshBasicMaterial transparent opacity={0} />

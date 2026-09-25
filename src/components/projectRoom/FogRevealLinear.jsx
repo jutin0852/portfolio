@@ -41,8 +41,8 @@ export default function FogRevealLinearCanvas({
         ? document.querySelector(".scroll-container")
         : undefined;
 
-    if (!(triggerEl instanceof HTMLElement)) return; 
-    if (window.innerWidth < 1100 && !scroller) return; 
+    if (!(triggerEl instanceof HTMLElement)) return;
+    if (window.innerWidth < 1100 && !scroller) return;
 
     prevFogRef.current = scene.fog;
 

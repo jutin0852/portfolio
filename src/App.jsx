@@ -11,6 +11,31 @@ import Connect from "./components/LandingPage/Connect";
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [loaderFontReady, setLoaderFontReady] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const showLoader = () => {
+      if (isMounted) setLoaderFontReady(true);
+    };
+
+    if (!document.fonts) {
+      showLoader();
+      return () => {
+        isMounted = false;
+      };
+    }
+
+    document.fonts
+      .load('700 210px "Bitcount Grid Single"')
+      .then(showLoader)
+      .catch(showLoader);
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     const startedAt = performance.now();
@@ -61,15 +86,19 @@ function App() {
         aria-label="Loading portfolio"
         className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden bg-[#f7f7f7]"
       >
-        <div className="absolute inset-0">
-          <RingTextRotate complete={progress === 100} />
-        </div>
-        <p
-          aria-live="polite"
-          className="font-bitcount absolute bottom-8 left-6 text-2xl text-black sm:bottom-10 sm:left-10 sm:text-3xl"
-        >
-          {Math.round(progress)}%
-        </p>
+        {loaderFontReady ? (
+          <>
+            <div className="absolute inset-0">
+              <RingTextRotate complete={progress === 100} />
+            </div>
+            <p
+              aria-live="polite"
+              className="font-bitcount absolute bottom-8 left-6 text-2xl text-black sm:bottom-10 sm:left-10 sm:text-3xl"
+            >
+              {Math.round(progress)}%
+            </p>
+          </>
+        ) : null}
       </main>
     );
   }

@@ -21,7 +21,7 @@ export default function Title({ className, ref, children }) {
         trigger: ref.current,
         scrub: 1,
         start: "top bottom",
-        end: "top center",
+        end: "top 70%",
       },
       autoAlpha: 0,
       opacity: 0,
