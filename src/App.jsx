@@ -9,7 +9,7 @@ import Works from "./components/LandingPage/Works";
 import Connect from "./components/LandingPage/Connect";
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [loaderFontReady, setLoaderFontReady] = useState(false);
 
