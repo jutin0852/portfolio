@@ -1,180 +1,120 @@
-import { useGSAP } from "@gsap/react";
-import { Cylinder, OrbitControls } from "@react-three/drei";
+import { Cylinder } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
-import gsap from "gsap";
-import React, { useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
-gsap.registerPlugin(useGSAP);
-
-function makeCanva(children, color, sub) {
-  const fontSize = 210;
-  const fontSizeSmall = 100;
-
+function createTextCanvas(text, color, isSubtext) {
   const canvas = document.createElement("canvas");
   canvas.width = 4506;
   canvas.height = 200;
 
   const context = canvas.getContext("2d");
-
-  context.fillStyle = "transparent";
-
-  context.fillRect(0, 0, canvas.width, canvas.height);
-
-  context.font = `bold ${fontSize}px  "Bitcount Grid Single"`;
-
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.font = isSubtext
+    ? '100px monospace'
+    : 'bold 210px "Bitcount Grid Single"';
   context.fillStyle = color;
-
-  if (sub) {
-    context.font = `${fontSizeSmall}px monospace`;
-  }
-
   context.textAlign = "center";
   context.textBaseline = "middle";
-  context.fillText(children, canvas.width / 2, canvas.height / 2);
+  context.fillText(text, canvas.width / 2, canvas.height / 2);
 
   return canvas;
 }
 
-const CylinderText = ({
-  size,
-  children,
-  color,
-  position = [0, 0, 0],
-  sub,
-  ref,
-}) => {
-  const canvas = useMemo(
-    () => makeCanva(children, color, sub),
-    [children, color, sub]
+function CylinderText({ children, color, complete, isSubtext, size, y }) {
+  const frontCanvas = useMemo(
+    () => createTextCanvas(children, color, isSubtext),
+    [children, color, isSubtext],
   );
   const backCanvas = useMemo(
-    () => makeCanva(children, color, sub),
-    [children, color, sub]
+    () => createTextCanvas(children, color, isSubtext),
+    [children, color, isSubtext],
   );
+  const group = useRef();
+  const frontTexture = useRef();
+  const backTexture = useRef();
+  const reducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const texture = useRef();
-  const texture2 = useRef();
-  // const meshRef = React.useRef();
+  useFrame(({ clock }, delta) => {
+    const textureOffset = reducedMotion ? 0 : clock.getElapsedTime() / 7;
 
-  useFrame(({ clock }) => {
-    texture.current.offset.x = clock.getElapsedTime() / 7;
-    texture2.current.offset.x = clock.getElapsedTime() / 7;
+    if (frontTexture.current) frontTexture.current.offset.x = textureOffset;
+    if (backTexture.current) backTexture.current.offset.x = textureOffset;
+
+    if (group.current) {
+      const targetY = complete ? -5 : y;
+      group.current.position.y = reducedMotion
+        ? targetY
+        : THREE.MathUtils.damp(group.current.position.y, targetY, 7, delta);
+    }
   });
 
-  const cylArgs = [1, 1, 2, 64, 1, true];
   return (
     <group
+      ref={group}
+      position={[0, -3, 0]}
       rotation-y={Math.PI / 4}
       scale={[0.5, size, 1]}
-      position={position}
-      ref={ref}
     >
-      <Cylinder args={cylArgs}>
-        <meshBasicMaterial
-          transparent
-          attach={"material"}
-          side={THREE.FrontSide}
-        >
+      <Cylinder args={[1, 1, 2, 64, 1, true]}>
+        <meshBasicMaterial transparent side={THREE.FrontSide}>
           <canvasTexture
-            attach={"map"}
-            image={canvas}
-            repeat={[1, 1]}
+            attach="map"
+            ref={frontTexture}
+            image={frontCanvas}
+            magFilter={THREE.NearestFilter}
+            minFilter={THREE.NearestFilter}
+            needsUpdate
             premultiplyAlpha
-            ref={texture}
             wrapS={THREE.RepeatWrapping}
             wrapT={THREE.RepeatWrapping}
-            minFilter={THREE.NearestFilter} // try THREE.NearestFilter for pixel sharpness
-            magFilter={THREE.NearestFilter}
-            onUpdate={(s) => (s.needsUpdate = true)}
           />
         </meshBasicMaterial>
       </Cylinder>
-      <Cylinder args={cylArgs}>
-        <meshBasicMaterial transparent attach="material" side={THREE.BackSide}>
+      <Cylinder args={[1, 1, 2, 64, 1, true]}>
+        <meshBasicMaterial transparent side={THREE.BackSide}>
           <canvasTexture
-            attach={"map"}
+            attach="map"
+            ref={backTexture}
             image={backCanvas}
-            repeat={[1, 1]}
+            magFilter={THREE.NearestFilter}
+            minFilter={THREE.NearestFilter}
+            needsUpdate
             premultiplyAlpha
-            ref={texture2}
             wrapS={THREE.RepeatWrapping}
             wrapT={THREE.RepeatWrapping}
-            minFilter={THREE.NearestFilter} // try THREE.NearestFilter for pixel sharpness
-            magFilter={THREE.NearestFilter}
-            onUpdate={(s) => (s.needsUpdate = true)}
           />
         </meshBasicMaterial>
       </Cylinder>
-      {/* <meshStandardMaterial color="orange" emissive={"orange"} /> */}
-      {/* </mesh> */}
     </group>
   );
-};
+}
 
-const GroupText = ({ loading }) => {
-  const ct1 = useRef();
-  const ct2 = useRef();
-
-  useGSAP(() => {
-    gsap.to(ct1.current.position, {
-      y: -0.12,
-      duration: 0.5,
-      ease: "power2.inOut",
-    });
-    gsap.to(ct2.current.position, {
-      y: -0.3,
-      duration: 0.8,
-      ease: "power2.inOut",
-    });
-  });
-
-  useGSAP(() => {
-    if (loading == "100") {
-      gsap.to(ct1.current.position, {
-        y: -5,
-        duration: 0.8,
-        ease: "power2.inOut",
-      });
-
-      gsap.to(ct2.current.position, {
-        y: -5,
-        duration: 0.5,
-        ease: "power2.inOut",
-      });
-    }
-  }, [loading]);
+function LoadingText({ complete }) {
   return (
     <group scale={0.7} rotation-z={0.2}>
-      <CylinderText size={0.1} color={"black"} ref={ct1} position={[0, -3, 0]}>
+      <CylinderText color="#000" complete={complete} size={0.1} y={-0.12}>
         BUILDING YOUR EXPERIENCE ON THE WEB
       </CylinderText>
-      <CylinderText
-        size={0.07}
-        color={"black"}
-        position={[0, -3.2, 0]}
-        sub={true}
-        ref={ct2}
-      >
-        FRONTEND --- DEVELOPER --- REACT --- NEXTJS --- TAILWIND --- CSS ---
-        HTML ---
+      <CylinderText color="#000" complete={complete} isSubtext size={0.07} y={-0.3}>
+        FRONTEND - DEVELOPER - REACT - NEXTJS - TAILWIND - CSS - HTML -
       </CylinderText>
     </group>
   );
-};
+}
 
-export default function RingTextRotate({ loading }) {
+export default function RingTextRotate({ complete }) {
   return (
     <Canvas
-      style={{
-        height: "120vh",
-        width: "100%",
-      }}
-      pixelRatio={window.devicePixelRatio}
-      camera={{ position: [2, 1, 2], fov: 50 }}
+      aria-hidden="true"
+      camera={{ fov: 50, position: [2, 1, 2] }}
+      dpr={[1, 2]}
+      gl={{ antialias: true, powerPreference: "low-power" }}
     >
       <ambientLight intensity={0.5} />
-      <GroupText loading={loading} />
+      <LoadingText complete={complete} />
     </Canvas>
   );
 }

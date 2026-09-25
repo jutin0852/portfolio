@@ -1,6 +1,5 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import Title from "../Title";
-import { Canvas } from "@react-three/fiber";
 import ProjectRoom from "../projectRoom/ProjectRoom";
 
 export default function Works() {

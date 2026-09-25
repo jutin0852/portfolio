@@ -2,6 +2,7 @@
 @import "tailwindcss";
 html {
   font-size: clamp(12px, 1.2vw, 16px);
+  scroll-behavior: smooth;
 }
 
 * {

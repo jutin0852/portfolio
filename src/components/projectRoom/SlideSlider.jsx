@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
 export default function SlideSlider({ slides, onChange, onHoverChange }) {
@@ -16,6 +16,19 @@ export default function SlideSlider({ slides, onChange, onHoverChange }) {
     slides.map((s) => s.img),
   );
   const meshesRef = useRef([]);
+  const { gl } = useThree();
+
+  useEffect(() => {
+    const maxAnisotropy = gl.capabilities.getMaxAnisotropy();
+
+    textures.forEach((texture) => {
+      texture.colorSpace = THREE.SRGBColorSpace;
+      texture.anisotropy = maxAnisotropy;
+      texture.minFilter = THREE.LinearMipmapLinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      texture.needsUpdate = true;
+    });
+  }, [gl, textures]);
 
   useEffect(() => {
     return () => {
@@ -86,8 +99,10 @@ export default function SlideSlider({ slides, onChange, onHoverChange }) {
           onHoverChange?.(false);
           document.body.style.cursor = "default";
         }}
-        onPointerDown={(e) => startDrag(getClientX(e))}
-        onTouchStart={(e) => startDrag(getClientX(e))}
+        onPointerDown={(e) => {
+          e.stopPropagation();
+          startDrag(e.clientX);
+        }}
       >
         <planeGeometry args={[slideWidth, slideHeight]} />
         <meshBasicMaterial transparent opacity={0} />

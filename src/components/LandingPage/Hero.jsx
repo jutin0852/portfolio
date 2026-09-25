@@ -10,10 +10,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
   const imgRef = useRef(null);
-   const scrollToSection = (id) => {
-     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-   };
-
+  const scrollToSection = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useGSAP(() => {
     const split = SplitText.create(".fd", {
@@ -34,7 +33,6 @@ export default function Hero() {
       autoAlpha: 0,
       opacity: 0,
       delay: 0.5,
-
       stagger: {
         from: "center",
         amount: 1,
@@ -60,7 +58,6 @@ export default function Hero() {
       {
         clipPath: "inset(0% 0% 0% 0%)",
         duration: 1.5,
-
         ease: "power2.inOut",
       },
       "-=1.1",
@@ -73,7 +70,6 @@ export default function Hero() {
         scrub: 1,
         start: "top bottom",
         end: "top center",
-        
       },
       autoAlpha: 0,
       opacity: 0,
@@ -96,22 +92,23 @@ export default function Hero() {
 
       <div className="z-10 my-10 md:my-15">
         <div className="imgBack relative mx-auto flex h-72 max-w-140 max-md:justify-center md:bg-[#F1F1F1]">
-          <p className="my-2 self-end overflow-y-hidden text-2xl font-bold tracking-tighter max-md:order-2">
+          <div className="my-2 self-end overflow-y-hidden text-2xl font-bold tracking-tighter max-md:order-2">
             <p className="imgText">/ FRONTEND DEVELOPMENT</p>
             <p className="imgText">/ MOBILE DEVELOPMENT</p>
             <p className="imgText">/ WEB DEVELOPMENT</p>
-          </p>
+          </div>
           <div className="">
             <img
               src="/jutin.png"
               ref={imgRef}
+              alt="Jutin Dikonu"
               className="w-50 md:absolute md:right-7 md:bottom-7 md:w-62"
             />
           </div>
         </div>
         <p className="font-spline mx-auto my-5 mt-10 w-100 text-center text-sm font-light max-md:hidden">
           I'M A PASSIONATE FRONTEND DEVELOPER WITH A STRONG FOCUS ON CREATING
-          BEAUITFUL, RESPONSIVE, AND USER-FREINDLY INTERFACE
+          BEAUTIFUL, RESPONSIVE, AND USER-FRIENDLY INTERFACES
         </p>
       </div>
       <section className="mb-10 flex flex-col text-2xl sm:mb-20">

@@ -9,13 +9,14 @@ import {
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import BeamCone from "./BeamCone";
 import FogRevealLinearCanvas from "./FogRevealLinear";
 import SlideSlider from "./SlideSlider";
 import SwipeHint from "./SwipeHint";
 import AnimatedLink from "../animation/AnimatedLink";
+import { projects } from "../../constants/data";
 gsap.registerPlugin(ScrollTrigger);
 
 // export function ProjectRoom1() {
@@ -124,16 +125,19 @@ function SimplePlaybackGate() {
 export function Scene() {
   const { scene } = useGLTF("./assets/final-scene.glb");
   const { gl } = useThree();
+  const model = useMemo(() => scene.clone(true), [scene]);
 
   useEffect(() => {
-    scene.traverse((child) => {
+    const createdMaterials = [];
+
+    model.traverse((child) => {
       if (!child.isMesh) return;
 
       const oldMat = child.material;
       const map = oldMat?.map ?? null;
 
       if (map) {
-        map.encoding = THREE.sRGBEncoding;
+        map.colorSpace = THREE.SRGBColorSpace;
         map.flipY = false;
       }
 
@@ -150,34 +154,19 @@ export function Scene() {
       if (oldMat?.aoMap) mat.aoMap = oldMat.aoMap;
       if (oldMat?.roughnessMap) mat.roughnessMap = oldMat.roughnessMap;
 
-      oldMat?.dispose?.();
       child.material = mat;
       child.material.needsUpdate = true;
+      createdMaterials.push(mat);
     });
 
     return () => {
-      // Dispose created resources to avoid GPU memory leaks
-      scene.traverse((child) => {
-        if (!child.isMesh) return;
-        if (child.geometry) child.geometry.dispose();
-        const mats = Array.isArray(child.material)
-          ? child.material
-          : [child.material];
-        mats.forEach((m) => {
-          if (!m) return;
-          if (m.map) m.map.dispose();
-          if (m.normalMap) m.normalMap.dispose?.();
-          if (m.roughnessMap) m.roughnessMap.dispose?.();
-          if (m.aoMap) m.aoMap.dispose?.();
-          m.dispose?.();
-        });
-      });
+      createdMaterials.forEach((material) => material.dispose());
     };
-  }, [scene, gl]);
+  }, [model, gl]);
 
   return (
     <group position={[0, -0.25, 0]}>
-      <primitive object={scene} />
+      <primitive object={model} dispose={null} />
     </group>
   );
 }
@@ -395,24 +384,14 @@ export default function ProjectRoom() {
     };
   }, []);
 
-  const slides = [
-    {
-      img: "./assets/projects/itappp.jpg",
-      link: "/www.i-tapp.com",
-      target: true,
-    },
-    // { img: "./assets/projects/mon.jpeg", link: "/" },
-
-    // { img: "./img/projects/art4.jpg", link: "/fashion-week" },
-    // { img: "./img/projects/art1.jpg", link: "/press-play" },
-    // { img: "./img/projects/art5.jpg", link: "/raine" },
-    // { img: "./img/projects/art2.jpg", link: "/alex-monroe" },
-    // { img: "./img/projects/art3.jpg", link: "/outside" },
-  ];
+  const slides = projects.map((project) => ({
+    img: project.image,
+    link: `/projects/${project.slug}`,
+  }));
 
   return (
     <section
-      className="projects relative h-[400dvh]"
+      className="projects relative h-[400dvh] overflow-x-clip"
       id="works"
       ref={sectionRef}
     >
@@ -428,7 +407,7 @@ export default function ProjectRoom() {
           gl={{
             antialias: true,
             powerPreference: "high-performance",
-            outputEncoding: THREE.sRGBEncoding,
+            outputColorSpace: THREE.SRGBColorSpace,
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: exposure,
           }}
@@ -471,12 +450,13 @@ export default function ProjectRoom() {
         <div className="font-spline absolute bottom-30 left-1/2 -translate-x-1/2 transform text-white md:hidden">
           Swipe projector
         </div>
-        <AnimatedLink
-          text="VIEW PROJECT"
-          className="font-spline absolute bottom-20 left-1/2 -translate-x-1/2 transform text-white"
-          to={slides[currentSlide].link}
-          target={slides[currentSlide].target}
-        />
+        <div className="absolute right-0 bottom-[30dvh] left-0 flex justify-center md:bottom-20">
+          <AnimatedLink
+            text="VIEW PROJECT"
+            className="font-spline text-white"
+            to={slides[currentSlide].link}
+          />
+        </div>
       </div>
     </section>
   );

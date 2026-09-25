@@ -11,7 +11,6 @@ export default function AboutMe2() {
   const ContainerRef = useRef();
 
   useGSAP(() => {
-    console.log(ContainerRef);
     // const tl = gsap.timeline();
     gsap.to(ContainerRef.current, {
       background: "#f7f7f7",

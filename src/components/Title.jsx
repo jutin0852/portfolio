@@ -9,8 +9,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Title({ className, ref, children }) {
   useGSAP(() => {
+    if (!ref.current) return;
     const wordRef = ref.current.querySelectorAll(".bm");
-    console.log("wordRef:", wordRef);
     const splitAbout = SplitText.create(wordRef, {
       type: "chars",
     });
@@ -21,7 +21,7 @@ export default function Title({ className, ref, children }) {
         trigger: ref.current,
         scrub: 1,
         start: "top bottom",
-        end: "top center",
+        end: "top 70%",
       },
       autoAlpha: 0,
       opacity: 0,
@@ -30,6 +30,7 @@ export default function Title({ className, ref, children }) {
         each: 0.02,
       },
     });
+    return () => splitAbout.revert();
   });
 
   return (

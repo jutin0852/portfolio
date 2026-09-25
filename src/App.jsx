@@ -1,10 +1,6 @@
-import { useState } from "react";
-
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import RingTextRotate from "./components/RingTextRotate";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 import Header from "./components/LandingPage/Header";
 import Hero from "./components/LandingPage/Hero";
 import AboutMe from "./components/LandingPage/AboutMe";
@@ -13,67 +9,102 @@ import Works from "./components/LandingPage/Works";
 import Connect from "./components/LandingPage/Connect";
 
 function App() {
-  const [loading, setLoading] = useState(false);
-  const [percentage, setPercentage] = useState(0);
-  const homeRef = useRef();
-
-  useGSAP(
-    () => {
-      if (percentage === 97) {
-        gsap.to(".count", { opacity: 0, duration: 0.4 });
-      }
-    },
-    { scope: homeRef, dependencies: [percentage] },
-  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [loaderFontReady, setLoaderFontReady] = useState(false);
 
   useEffect(() => {
-    const minLoadTime = 4000;
-    const startTime = Date.now();
-    let pageLoaded = false;
+    let isMounted = true;
 
-    const loadTimer = setTimeout(() => {
-      pageLoaded = true;
-    }, 2000);
-
-    const updateProgress = () => {
-      const elapsed = Date.now() - startTime;
-      const loadProgress = pageLoaded ? 100 : 70;
-      const timeProgress = Math.min((elapsed / minLoadTime) * 100, 100);
-
-      const targetPercentage = Math.min(loadProgress, timeProgress);
-
-      setPercentage((prev) => {
-        const newPercentage = Math.min(prev + 1, targetPercentage);
-
-        if (newPercentage >= 100 && elapsed >= minLoadTime && pageLoaded) {
-          setTimeout(() => {
-            setLoading(false);
-          }, 700);
-          return 100;
-        }
-
-        return newPercentage;
-      });
+    const showLoader = () => {
+      if (isMounted) setLoaderFontReady(true);
     };
-    const interval = setInterval(updateProgress, 70);
+
+    if (!document.fonts) {
+      showLoader();
+      return () => {
+        isMounted = false;
+      };
+    }
+
+    document.fonts
+      .load('700 210px "Bitcount Grid Single"')
+      .then(showLoader)
+      .catch(showLoader);
+
     return () => {
-      clearInterval(interval);
-      clearTimeout(loadTimer);
+      isMounted = false;
     };
   }, []);
 
-  if (loading) {
+  useEffect(() => {
+    const startedAt = performance.now();
+    const minimumDuration = 2200;
+    const maximumDuration = 6000;
+    let pageReady = document.readyState === "complete";
+    let closeTimer;
+
+    const markReady = () => {
+      pageReady = true;
+    };
+
+    const finish = () => {
+      window.clearInterval(progressTimer);
+      setProgress(100);
+      closeTimer = window.setTimeout(() => setIsLoading(false), 500);
+    };
+
+    const progressTimer = window.setInterval(() => {
+      const elapsed = performance.now() - startedAt;
+      const target = pageReady
+        ? Math.min(100, 60 + (elapsed / minimumDuration) * 40)
+        : Math.min(92, (elapsed / minimumDuration) * 72);
+
+      setProgress((current) => Math.min(target, current + 2));
+
+      if (
+        (pageReady && elapsed >= minimumDuration) ||
+        elapsed >= maximumDuration
+      ) {
+        finish();
+      }
+    }, 60);
+
+    window.addEventListener("load", markReady, { once: true });
+
+    return () => {
+      window.clearInterval(progressTimer);
+      window.clearTimeout(closeTimer);
+      window.removeEventListener("load", markReady);
+    };
+  }, []);
+
+  if (isLoading) {
     return (
-      <div className="flex h-[80vh] items-center justify-center" ref={homeRef}>
-        <RingTextRotate loading={percentage} />
-        <div className="font-bitcount count absolute bottom-10 left-10 text-3xl">
-          {percentage}%
-        </div>
-      </div>
+      <main
+        aria-busy="true"
+        aria-label="Loading portfolio"
+        className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden bg-[#f7f7f7]"
+      >
+        {loaderFontReady ? (
+          <>
+            <div className="absolute inset-0">
+              <RingTextRotate complete={progress === 100} />
+            </div>
+            <p
+              aria-live="polite"
+              className="font-bitcount absolute bottom-8 left-6 text-2xl text-black sm:bottom-10 sm:left-10 sm:text-3xl"
+            >
+              {Math.round(progress)}%
+            </p>
+          </>
+        ) : null}
+      </main>
     );
   }
+
   return (
-    <div ref={homeRef} className="h-screen">
+    <div>
       <Header />
       <Hero />
       <AboutMe />
