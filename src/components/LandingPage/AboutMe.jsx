@@ -95,7 +95,12 @@ export default function AboutMe() {
         </p>
         <div>
           <div className="inline-block">
-            <img src="/jutin.png" ref={imgRef} className="w-50 md:w-62" />
+            <img
+              src="/jutin.png"
+              ref={imgRef}
+              alt="Jutin Dikonu"
+              className="w-50 md:w-62"
+            />
             <div className="font-spline pt-4 text-center text-xl font-light text-white">
               <p className="hello overflow-y-hidden">HELLO!</p>
               <p className="overflow-y-hidden">I AM....WELL JUST A SEC</p>
