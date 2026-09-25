@@ -72,7 +72,7 @@ export default function AboutMe() {
       id="aboutme"
       className="h-screen overflow-y-hidden bg-[#101010] pb-20 text-white"
     >
-      <div className="flex flex-col justify-center px-10 max-md:pt-15 lg:px-20">
+      <div className="flex flex-col justify-center px-10 max-md:pt-15 lg:px-20 2xl:px-32">
         <div className="max-w-300 overflow-visible text-[clamp(4rem,18vw,5rem)] leading-[clamp(5rem,14vw,6.5rem)] font-extrabold -tracking-[3px] text-[#f7f7f7] md:pt-5 md:text-[clamp(6rem,12vw,8rem)] md:-tracking-[5px] md:whitespace-nowrap lg:self-center lg:justify-self-center">
           <p className="font-spline my-5 text-xl font-normal tracking-normal text-white md:my-5">
             FOR ME

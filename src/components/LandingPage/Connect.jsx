@@ -14,7 +14,7 @@ export default function Connect() {
       </p>
       <Title
         ref={productTitleRef}
-        className="mb-6 p-1 whitespace-normal text-black md:text-[clamp(6rem,12vw,7rem)] lg:-tracking-[3px]"
+        className="mb-6 p-1 whitespace-normal text-black md:text-[clamp(6rem,12vw,7rem)] lg:-tracking-[3px] 2xl:text-[clamp(8rem,10vw,12rem)]"
       >
         A GREAT <br className="md:hidden" /> PRODUCT
       </Title>
@@ -23,13 +23,13 @@ export default function Connect() {
       </p>
       <Title
         ref={hireTitleRef}
-        className="p-1 whitespace-normal text-black md:text-[clamp(6rem,12vw,7rem)] lg:-tracking-[3px]"
+        className="p-1 whitespace-normal text-black md:text-[clamp(6rem,12vw,7rem)] lg:-tracking-[3px] 2xl:text-[clamp(8rem,10vw,12rem)]"
       >
         A GREAT <br className="md:hidden" /> HIRE
       </Title>
       <section id="contact" className="mb-5 flex flex-col text-2xl sm:mb-10">
         <div className="my-8 text-center text-3xl md:self-end">
-          <p className="font-semibold tracking-wider md:text-5xl">
+          <p className="font-semibold tracking-wider md:text-5xl 2xl:text-6xl">
             <a href="tel:+2347011896023" className="focus-visible:outline-2 focus-visible:outline-offset-4">
               +234 70 1189 6023
             </a>
