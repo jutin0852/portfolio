@@ -36,15 +36,15 @@ export default function MobileProjectList() {
                   aria-hidden="true"
                 />
               </div>
-            </div>
 
-            <div className="mt-5 w-full overflow-hidden border border-black/15 bg-black md:mt-0 md:w-auto">
-              <img
-                src={project.image}
-                alt={`${project.name} project preview`}
-                className="block aspect-[16/10] w-full object-cover transition-transform duration-700 ease-out group-active:scale-[1.03] group-focus-visible:scale-[1.03] md:group-hover:scale-[1.03]"
-                loading={index === 0 ? "eager" : "lazy"}
-              />
+              <div className="mt-5 w-full overflow-hidden border border-black/15 bg-black md:mt-0 md:w-auto">
+                <img
+                  src={project.image}
+                  alt={`${project.name} project preview`}
+                  className="block aspect-[16/10] w-full object-cover transition-transform duration-700 ease-out group-active:scale-[1.03] group-focus-visible:scale-[1.03] md:group-hover:scale-[1.03]"
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              </div>
             </div>
           </Link>
         ))}
