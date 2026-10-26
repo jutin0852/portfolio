@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import SplitText from "gsap/SplitText";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -10,9 +10,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
   const imgRef = useRef(null);
-  const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
 
   useGSAP(() => {
     const split = SplitText.create(".fd", {
@@ -112,16 +109,16 @@ export default function Hero() {
         </p>
       </div>
       <section className="mb-10 flex flex-col text-2xl sm:mb-20">
-        <div className="md:self-end">
-          <p
-            onClick={() => scrollToSection("works")}
-            className="font-spline cursor-pointer text-xs tracking-[0.16em]"
-          >
+        <a
+          href="#works"
+          className="block focus-visible:outline-2 focus-visible:outline-offset-4 md:self-end"
+        >
+          <p className="font-spline text-xs tracking-[0.16em]">
             <span>RECENT WORK</span>
-            <ArrowDownRight strokeWidth={1} className="inline" />
+            <ArrowDownRight strokeWidth={1} className="inline" aria-hidden="true" />
           </p>
           <p className="mt-2 font-bold tracking-tight">JUTIN&apos;S PROJECTS</p>
-        </div>
+        </a>
         <div className="max-md:self-end">
           <p className="font-spline text-xs tracking-[0.16em]">
             <span> AVAILABLE FOR WORK </span>

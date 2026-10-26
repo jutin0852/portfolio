@@ -6,7 +6,7 @@ export default function Works() {
   const titleRef = useRef(null);
 
   return (
-    <section className="">
+    <section id="works">
       <section className="bg-black">
         <Title
           ref={titleRef}
