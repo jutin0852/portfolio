@@ -18,9 +18,8 @@ export const projects = [
     liveUrl: "https://www.getplaceit.com/",
   },
   {
-    slug: "stride-circle",
-    name: "Stride Circle",
-    image: "/assets/projects/stride-circle-projector.png",
-    codeUrl: "https://github.com/jutin0852/stride_circle",
+    slug: "waka",
+    name: "Waka",
+    image: "/assets/projects/waka-projector.webp",
   },
 ];
