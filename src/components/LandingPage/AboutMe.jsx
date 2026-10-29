@@ -110,7 +110,7 @@ export default function AboutMe() {
             <ArrowDownRight className="inline-block" />
           </p>
           <p className="font-spline max-w-100 overflow-y-hidden text-center text-xl font-light text-white">
-            A FRONTEND DEVELOPER WITH 3
+            A FRONTEND DEVELOPER WITH 4
           </p>
           <p className="font-spline max-w-100 overflow-y-hidden text-center text-xl font-light text-white">
             YEARS OF EXPERIENCE IN BUILDING

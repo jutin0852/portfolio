@@ -25,11 +25,10 @@ const built = [
   "Firebase email and Google sign-in, Firestore Security Rules, opt-in daily walking reminders, and in-app account deletion.",
 ];
 
-const challenges = [
-  ["Private data, shared momentum", "Personal movement stays private while the right daily total synchronizes to each circle, so every circle can show its own standings without exposing anyone's full history."],
-  ["Honest device states", "Health data and GPS can be unavailable or weak, so permissions, recovery, loading, empty, and weak-signal states are treated as real product flows."],
-  ["Shared data with boundaries", "Firestore Rules give owners and members only the access they need, and enforce the 20-member cap, member removal, and safe circle deletion."],
-  ["Trust without a server", "Steps come from the phone, so the Rules bound what can be written to whole daily totals within a sensible range for recent days, and manually entered Health data is left out of the count."],
+const principles = [
+  ["Keep circles small", "Circles are capped at 20 people, so standings feel like friends cheering each other on rather than an anonymous leaderboard."],
+  ["Share the total, keep the rest", "Each circle sees a member's daily steps and nothing more. Routes and personal history stay private."],
+  ["Reward showing up", "Goals, streaks and small celebrations make the habit feel good on an average day, not only on a record one."],
 ];
 
 const gallery = [
@@ -191,17 +190,17 @@ export default function WakaCaseStudy() {
 
       <section className="px-5 py-20 md:px-10 md:py-32">
         <div className="max-w-3xl">
-          <p className="font-spline text-xs tracking-[0.16em] text-[#1b7aa3]">TECHNICAL CHALLENGES</p>
+          <p className="font-spline text-xs tracking-[0.16em] text-[#1b7aa3]">APPROACH</p>
           <h2 className="mt-4 text-[clamp(3.5rem,8vw,8rem)] leading-[0.84] font-extrabold tracking-[-0.08em] uppercase">
-            Real product constraints.
+            Small circles. Steady habits.
           </h2>
         </div>
-        <div className="mt-16 grid gap-x-12 gap-y-10 md:grid-cols-2">
-          {challenges.map(([title, description], index) => (
+        <div className="mt-16 grid gap-x-12 gap-y-10 md:grid-cols-3">
+          {principles.map(([title, description], index) => (
             <article key={title} className="border-t border-black/25 pt-5">
               <p className="font-spline text-xs text-[#1b7aa3]">0{index + 1}</p>
               <h3 className="mt-7 text-3xl leading-none font-bold tracking-tight">{title}</h3>
-              <p className="mt-4 max-w-xl text-lg leading-relaxed text-black/70">{description}</p>
+              <p className="mt-4 max-w-sm text-lg leading-relaxed text-black/70">{description}</p>
             </article>
           ))}
         </div>

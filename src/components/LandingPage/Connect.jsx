@@ -94,5 +94,5 @@ export default function Connect() {
 }
 
 const socialLinks = [
-  { name: "LINKEDIN", url: "https://www.linkedin.com/in/jutindikonu" },
+  { name: "LINKEDIN", url: "https://www.linkedin.com/in/jutin-dikonu" },
 ];
