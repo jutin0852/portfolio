@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import SplitText from "gsap/SplitText";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -10,9 +10,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
   const imgRef = useRef(null);
-  const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
 
   useGSAP(() => {
     const split = SplitText.create(".fd", {
@@ -91,7 +88,7 @@ export default function Hero() {
       </p>
 
       <div className="z-10 my-10 md:my-15">
-        <div className="imgBack relative mx-auto flex h-72 max-w-140 max-md:justify-center md:bg-[#F1F1F1]">
+        <div className="imgBack relative mx-auto flex h-72 max-w-140 max-md:justify-center md:bg-[#F1F1F1] 2xl:h-88 2xl:max-w-220">
           <div className="my-2 self-end overflow-y-hidden text-2xl font-bold tracking-tighter max-md:order-2">
             <p className="imgText">/ FRONTEND DEVELOPMENT</p>
             <p className="imgText">/ MOBILE DEVELOPMENT</p>
@@ -106,28 +103,28 @@ export default function Hero() {
             />
           </div>
         </div>
-        <p className="font-spline mx-auto my-5 mt-10 w-100 text-center text-sm font-light max-md:hidden">
+          <p className="font-spline mx-auto my-5 mt-10 w-100 text-center text-sm font-light max-md:hidden 2xl:mt-14 2xl:w-130 2xl:text-base">
           I'M A PASSIONATE FRONTEND DEVELOPER WITH A STRONG FOCUS ON CREATING
           BEAUTIFUL, RESPONSIVE, AND USER-FRIENDLY INTERFACES
         </p>
       </div>
       <section className="mb-10 flex flex-col text-2xl sm:mb-20">
-        <div className="md:self-end">
-          <p
-            onClick={() => scrollToSection("works")}
-            className="cursor-pointer font-light"
-          >
+        <a
+          href="#works"
+          className="block focus-visible:outline-2 focus-visible:outline-offset-4 md:self-end"
+        >
+          <p className="font-spline text-xs tracking-[0.16em]">
             <span>RECENT WORK</span>
-            <ArrowDownRight strokeWidth={1} className="inline" />
+            <ArrowDownRight strokeWidth={1} className="inline" aria-hidden="true" />
           </p>
-          <p className="font-bold">JUTIN'S PROJECTS</p>
-        </div>
+          <p className="mt-2 font-bold tracking-tight">JUTIN&apos;S PROJECTS</p>
+        </a>
         <div className="max-md:self-end">
-          <p className="font-light">
+          <p className="font-spline text-xs tracking-[0.16em]">
             <span> AVAILABLE FOR WORK </span>
             <ArrowDownRight strokeWidth={1} className="inline" />
           </p>
-          <p className="font-bold underline underline-offset-4">
+          <p className="mt-2 font-bold tracking-tight underline underline-offset-4">
             <a href="mailto:jutindikonu8@gmail.com">Jutindikonu8@gmail.com</a>
           </p>
         </div>

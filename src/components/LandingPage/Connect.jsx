@@ -9,27 +9,27 @@ export default function Connect() {
 
   return (
     <section id="connect" className="mx-2 mt-20 pb-5 md:mx-10">
-      <p className="bm mb-6 overflow-y-hidden text-center text-2xl font-bold">
+      <p className="bm font-spline mb-6 overflow-y-hidden text-center text-xs font-normal tracking-[0.16em]">
         LET&apos;S HAVE THAT MEETING
       </p>
       <Title
         ref={productTitleRef}
-        className="mb-6 p-1 whitespace-normal text-black md:text-[clamp(6rem,12vw,7rem)] lg:-tracking-[3px]"
+        className="mb-6 p-1 whitespace-normal text-black md:text-[clamp(6rem,12vw,7rem)] lg:-tracking-[3px] 2xl:text-[clamp(8rem,10vw,12rem)]"
       >
         A GREAT <br className="md:hidden" /> PRODUCT
       </Title>
-      <p className="bm mb-6 overflow-y-hidden text-center text-lg font-bold tracking-[1em]">
+      <p className="bm font-spline mb-6 overflow-y-hidden text-center text-xs font-normal tracking-[0.3em]">
         STARTS WITH
       </p>
       <Title
         ref={hireTitleRef}
-        className="p-1 whitespace-normal text-black md:text-[clamp(6rem,12vw,7rem)] lg:-tracking-[3px]"
+        className="p-1 whitespace-normal text-black md:text-[clamp(6rem,12vw,7rem)] lg:-tracking-[3px] 2xl:text-[clamp(8rem,10vw,12rem)]"
       >
         A GREAT <br className="md:hidden" /> HIRE
       </Title>
       <section id="contact" className="mb-5 flex flex-col text-2xl sm:mb-10">
         <div className="my-8 text-center text-3xl md:self-end">
-          <p className="font-semibold tracking-wider md:text-5xl">
+          <p className="font-semibold tracking-wider md:text-5xl 2xl:text-6xl">
             <a href="tel:+2347011896023" className="focus-visible:outline-2 focus-visible:outline-offset-4">
               +234 70 1189 6023
             </a>
@@ -94,5 +94,5 @@ export default function Connect() {
 }
 
 const socialLinks = [
-  { name: "LINKEDIN", url: "https://www.linkedin.com/in/jutindikonu" },
+  { name: "LINKEDIN", url: "https://www.linkedin.com/in/jutin-dikonu" },
 ];

@@ -1,11 +1,12 @@
 import { useRef } from "react";
 import Title from "../Title";
-import ProjectRoom from "../projectRoom/ProjectRoom";
+import MobileProjectList from "./MobileProjectList";
 
 export default function Works() {
   const titleRef = useRef(null);
+
   return (
-    <section className="">
+    <section id="works">
       <section className="bg-black">
         <Title
           ref={titleRef}
@@ -16,7 +17,7 @@ export default function Works() {
           RECENT <br className="md:hidden" /> WORKS
         </Title>
       </section>
-      <ProjectRoom />
+      <MobileProjectList />
     </section>
   );
 }

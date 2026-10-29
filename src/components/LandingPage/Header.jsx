@@ -38,7 +38,7 @@ export default function Header() {
           aria-label="Main navigation"
           className="font-spline hidden justify-center p-5 font-normal md:flex"
         >
-          <ul className="flex w-3/4 max-w-150 justify-between gap-3 justify-self-end">
+          <ul className="flex w-3/4 max-w-150 justify-between gap-3 justify-self-end 2xl:max-w-200">
             {nav.map((item) => (
               <li key={item.id}>
                 <a
